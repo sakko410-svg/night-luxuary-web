@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>夜の価値観タイプ診断</title>
+  <link rel="stylesheet" href="./style.css"/>
+  <style>
+    /* ── Marquee ── */
+    .marquee-wrap { overflow:hidden; width:100%; margin-top:48px; }
+    .marquee-track {
+      display:flex; gap:16px;
+      animation: marquee 28s linear infinite;
+      width:max-content;
+    }
+    .marquee-wrap:hover .marquee-track { animation-play-state:paused; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .marquee-card {
+      flex-shrink:0; width:100px; border-radius:16px;
+      background:var(--surface); border:1px solid var(--border);
+      padding:12px 8px; text-align:center;
+      transition:transform 0.2s, box-shadow 0.2s;
+      cursor:pointer; text-decoration:none; color:var(--white);
+    }
+    .marquee-card:hover {
+      transform:translateY(-6px) scale(1.05);
+      box-shadow:0 12px 32px rgba(124,58,237,0.4);
+      border-color:var(--purple-l);
+    }
+    .marquee-card img {
+      width:72px; height:72px; object-fit:cover; border-radius:12px;
+      display:block; margin:0 auto 8px;
+    }
+    .marquee-card .mc-name { font-size:0.6rem; font-family:'Syne',sans-serif; font-weight:700; line-height:1.3; color:var(--purple-ll); }
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="noise"></div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">NightType</a>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="drawer" id="drawer">
+  <a href="index.html" class="active"><span class="icon">🏠</span>ホーム</a>
+  <a href="quiz.html"><span class="icon">🌙</span>診断する</a>
+  <a href="characters.html"><span class="icon">🎴</span>キャラ一覧</a>
+  <a href="compat.html"><span class="icon">💜</span>相性チェック</a>
+</div>
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<div class="page">
+  <div class="home-hero">
+    <div class="hero-badge"><div class="dot"></div>16 Types · Night Values</div>
+    <h1 class="hero-title">あなたの<br><span class="grad">夜の価値観</span><br>タイプは？</h1>
+    <p class="hero-sub">32の質問に答えるだけで、あなたの夜のスタイルが分かる。<br>16タイプの中からぴったりの答えを見つけよう。</p>
+    <a href="quiz.html" class="hero-btn">診断スタート →</a>
+    <div class="hero-cards">
+      <div class="hero-card"><span class="num">32</span>問の設問</div>
+      <div class="hero-card"><span class="num">16</span>タイプ診断</div>
+      <div class="hero-card"><span class="num">∞</span>相性チェック</div>
+    </div>
+  </div>
+
+  <!-- キャラ流れるマーキー -->
+  <div class="marquee-wrap" id="marqueeWrap"></div>
+</div>
+
+<script src="./types.js"></script>
+<script src="./common.js"></script>
+<script>
+// マーキーを2周分作る
+const wrap = document.getElementById('marqueeWrap');
+const track = document.createElement('div');
+track.className = 'marquee-track';
+const keys = Object.keys(types);
+// 2周分
+[...keys,...keys].forEach(k => {
+  const d = types[k];
+  const a = document.createElement('a');
+  a.className = 'marquee-card';
+  a.href = 'characters.html#'+k;
+  if(d.image){
+    a.innerHTML = `<img src="${d.image}" alt="${d.name}"/><div class="mc-name">${d.name}</div>`;
+  } else {
+    a.innerHTML = `<div style="font-size:2.8rem;margin-bottom:8px">${d.icon}</div><div class="mc-name">${d.name}</div>`;
+  }
+  track.appendChild(a);
+});
+wrap.appendChild(track);
+</script>
+</body>
+</html>
