@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>診断｜NightType</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="noise"></div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">NightType</a>
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="drawer" id="drawer">
+  <a href="index.html"><span class="icon">🏠</span>ホーム</a>
+  <a href="quiz.html" class="active"><span class="icon">🌙</span>診断する</a>
+  <a href="compat.html"><span class="icon">💜</span>相性チェック</a>
+</div>
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<div class="page">
+  <div class="quiz-wrap">
+
+    <div class="quiz-header">
+      <div class="progress-top">
+        <span>Progress</span>
+        <span class="progress-num" id="progressText">1 / 32</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:3%"></div>
+      </div>
+    </div>
+
+    <div class="q-card" id="qCard">
+      <div class="q-tag" id="qNum">Question 01</div>
+      <p id="question">読み込み中...</p>
+      <div class="q-deco"></div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-yes" id="yesBtn">かなり当てはまる</button>
+      <button class="btn-no"  id="noBtn">あまり当てはまらない</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="./questions.js"></script>
+<script>
+let idx = 0;
+const scores = {};
+const card = document.getElementById('qCard');
+const qEl  = document.getElementById('question');
+const qNum = document.getElementById('qNum');
+const fill = document.getElementById('progressFill');
+const txt  = document.getElementById('progressText');
+
+function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+function show() {
+  qEl.textContent  = questions[idx].text;
+  qNum.textContent = 'Question ' + pad(idx + 1);
+  const pct = ((idx) / questions.length) * 100;
+  fill.style.width = Math.max(pct, 3) + '%';
+  txt.textContent  = (idx + 1) + ' / ' + questions.length;
+}
+
+function answer(val) {
+  const type = questions[idx].type;
+  scores[type] = (scores[type] || 0) + val;
+  idx++;
+  if (idx < questions.length) {
+    card.classList.add('q-exit');
+    setTimeout(() => {
+      card.classList.remove('q-exit');
+      show();
+      card.classList.add('q-enter');
+      setTimeout(() => card.classList.remove('q-enter'), 300);
+    }, 200);
+    fill.style.width = ((idx / questions.length) * 100) + '%';
+    txt.textContent = (idx + 1) + ' / ' + questions.length;
+  } else {
+    fill.style.width = '100%';
+    localStorage.setItem('nightTypeScores', JSON.stringify(scores));
+    setTimeout(() => window.location.href = 'result.html', 350);
+  }
+}
+
+document.getElementById('yesBtn').addEventListener('click', () => answer(1));
+document.getElementById('noBtn').addEventListener('click',  () => answer(0));
+show();
+</script>
+<script src="./common.js"></script>
+</body>
+</html>

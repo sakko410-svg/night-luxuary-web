@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>夜の価値観タイプ診断</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="noise"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">NightType</a>
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <a href="index.html" class="active"><span class="icon">🏠</span>ホーム</a>
+  <a href="quiz.html"><span class="icon">🌙</span>診断する</a>
+  <a href="compat.html"><span class="icon">💜</span>相性チェック</a>
+</div>
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<!-- HERO -->
+<div class="page">
+  <div class="home-hero">
+
+    <div class="hero-badge">
+      <div class="dot"></div>
+      16 Types · Night Values
+    </div>
+
+    <h1 class="hero-title">
+      あなたの<br><span class="grad">夜の価値観</span><br>タイプは？
+    </h1>
+
+    <p class="hero-sub">
+      32の質問に答えるだけで、あなたの夜のスタイルが分かる。<br>
+      16タイプの中からぴったりの答えを見つけよう。
+    </p>
+
+    <a href="quiz.html" class="hero-btn">診断スタート →</a>
+
+    <div class="hero-cards">
+      <div class="hero-card"><span class="num">32</span>問の設問</div>
+      <div class="hero-card"><span class="num">16</span>タイプ診断</div>
+      <div class="hero-card"><span class="num">∞</span>相性チェック</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="./common.js"></script>
+</body>
+</html>
